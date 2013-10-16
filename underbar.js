@@ -36,20 +36,20 @@ var _ = { };
   // Call iterator(value, key, collection) for each element of collection.
   // Accepts both arrays and objects.
   _.each = function(collection, iterator) {
+    //check whether collection is an Array or not
     if (collection instanceof Array) {
     for (var i = 0; i < collection.length; i++) {
       iterator(collection[i], i, collection);
     }}
-    
     else {
       for (var key in collection) {
         iterator(collection[key], key, collection);
-      }}
+    }}
   };
 
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
-  _.indexOf = function(array, target){
+  _.indexOf = function(array, target) {
     // TIP: Here's an example of a function that needs to iterate, which we've
     // implemented for you. Instead of using a standard `for` loop, though,
     // it uses the iteration helper `each`, which you will need to write.
@@ -57,10 +57,24 @@ var _ = { };
 
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, iterator) {
+    var passes = [];
+      for (var i = 0; i < collection.length; i++) {
+        if (iterator(collection[i]) === true) {
+          passes.push(collection[i]);
+        }
+      }
+    return passes;
   };
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, iterator) {
+    var fails = [];
+    for (var i = 0; i < collection.length; i++) {
+        if (iterator(collection[i]) === false) {
+          fails.push(collection[i]);
+        }
+      }
+    return fails;
     // TIP: see if you can re-use _.select() here, without simply
     // copying code in and modifying it
   };
