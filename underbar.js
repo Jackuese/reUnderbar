@@ -46,10 +46,15 @@ var _ = { };
         iterator(collection[key], key, collection);
     }}
   };
-
   // Returns the index at which value can be found in the array, or -1 if value
   // is not present in the array.
   _.indexOf = function(array, target) {
+    for (var i = 0; i < array.length; i++) {
+      if (array[i] === target) {
+        return i;
+      }
+    }
+    return -1;
     // TIP: Here's an example of a function that needs to iterate, which we've
     // implemented for you. Instead of using a standard `for` loop, though,
     // it uses the iteration helper `each`, which you will need to write.
@@ -75,12 +80,17 @@ var _ = { };
         }
       }
     return fails;
-    // TIP: see if you can re-use _.select() here, without simply
-    // copying code in and modifying it
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
+    var newArr = [];
+    for (var i = 0; i < array.length; i++) {
+      if (array[i] in newArr === false) {
+        newArr.push(array[i]);
+      }
+    }
+    return newArr;
   };
 
 
