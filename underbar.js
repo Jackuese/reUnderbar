@@ -65,11 +65,11 @@ var _ = { };
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, iterator) {
     var passes = [];
-      _.each(collection, function(iterator) {
+      for (var i = 0; i < collection.length; i++) {
         if (iterator(collection[i]) === true) {
           passes.push(collection[i]);
         }
-      });
+      }
     return passes;
   };
 
@@ -125,9 +125,12 @@ var _ = { };
 
   // Calls the method named by methodName on each value in the list.
   _.invoke = function(list, methodName, args) {
+    var storer = [];
     for (var i = 0; i < list.length; i++) {
-      methodName.call(list[i]);
+      var answers = list[i][methodName]();
+      storer.push(answers);
     }
+    return storer;
   };
 
   // Reduces an array or object to a single value by repetitively calling
@@ -144,6 +147,19 @@ var _ = { };
   //   }, 0); // should be 6
   //
   _.reduce = function(collection, iterator, initialValue) {
+    if (initialValue !== undefined) {
+        _.each(collection, function (element) {
+          initialValue = iterator(initialValue, element);
+        });
+        return initialValue;
+      }
+    else {
+      var newValue = 0;
+        _.each(collection, function (element) {
+          newValue = iterator(newValue, element);
+        });
+      return newValue;
+    }
   };
 
   // Determine if the array or object contains a given value (using `===`).
