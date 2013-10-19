@@ -65,33 +65,33 @@ var _ = { };
   // Return all elements of an array that pass a truth test.
   _.filter = function(collection, iterator) {
     var passes = [];
-      for (var i = 0; i < collection.length; i++) {
-        if (iterator(collection[i]) === true) {
-          passes.push(collection[i]);
+      _.each(collection, function (element) {
+        if (iterator(element) === true) {
+          passes.push(element);
         }
-      }
+      });
     return passes;
   };
 
   // Return all elements of an array that don't pass a truth test.
   _.reject = function(collection, iterator) {
     var fails = [];
-    for (var i = 0; i < collection.length; i++) {
-        if (iterator(collection[i]) === false) {
-          fails.push(collection[i]);
+    _.each(collection, function(element) {
+        if (iterator(element) === false) {
+          fails.push(element);
         }
-      }
+      });
     return fails;
   };
 
   // Produce a duplicate-free version of the array.
   _.uniq = function(array) {
     var newArr = [];
-    for (var i = 0; i < array.length; i++) {
-      if (array[i] in newArr === false) {
-        newArr.push(array[i]);
+    _.each(array, function (element) {
+      if (element in newArr === false) {
+        newArr.push(element);
       }
-    }
+    });
     return newArr;
   };
 
@@ -99,9 +99,9 @@ var _ = { };
   // Return the results of applying an iterator to each element.
   _.map = function(array, iterator) {
       var results = [];
-      for (var i = 0; i < array.length; i++) {
-        results.push(iterator(array[i]));
-      }
+      _.each(array, function (element) {
+        results.push(iterator(element));
+      });
       return results;
   };
 
