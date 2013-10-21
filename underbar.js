@@ -126,10 +126,10 @@ var _ = { };
   // Calls the method named by methodName on each value in the list.
   _.invoke = function(list, methodName, args) {
     var storer = [];
-    for (var i = 0; i < list.length; i++) {
-      var answers = list[i][methodName]();
+    _.each(list, function (element) {
+      var answers = element[methodName]();
       storer.push(answers);
-    }
+    });
     return storer;
   };
 
@@ -148,11 +148,11 @@ var _ = { };
   //
   _.reduce = function(collection, iterator, initialValue) {
     if (initialValue !== undefined) {
-        _.each(collection, function (element) {
-          initialValue = iterator(initialValue, element);
-        });
-        return initialValue;
-      }
+      _.each(collection, function (element) {
+        initialValue = iterator(initialValue, element);
+      });
+      return initialValue;
+    }
     else {
       var newValue = 0;
         _.each(collection, function (element) {
@@ -177,14 +177,55 @@ var _ = { };
 
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
-    // TIP: Try re-using reduce() here.
+    var mapArr;
+    var doer = function (collection, iterator) {
+      mapArr = _.map(collection, iterator);
+      if (mapArr.indexOf(false) > -1) {
+        return false;
+      }
+      else if (mapArr.indexOf(undefined) > -1) {
+        return false;
+      }
+      else {
+        return true;
+      }
+    };
+      if (iterator) {
+        return doer(collection, iterator);
+      }
+      else {
+        var defaultIterator = function (element) {
+          return element;
+        };
+        return doer(collection, defaultIterator);
+      }
   };
+    
+    // TIP: Try re-using reduce() here.
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
+    var sumCheck = 0;
+    var defaultIterator = function (element) {
+      return element;
+    };
+    if (!iterator) {
+      iterator = defaultIterator;
+    }
+    _.each(collection, function (element) {
+      if (iterator(element) === true || element === 'yes') {
+        sumCheck += 1;
+      }
+    });
+      if (sumCheck > 0) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    };
     // TIP: There's a very clever way to re-use every() here.
-  };
 
 
   /**
