@@ -318,6 +318,20 @@ var _ = { };
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
+    var result = func;
+    var hasRun = 0;
+    return function() {
+      if (hasRun < 1) {
+        result = func.apply(this, arguments);
+        hasRun +=1;
+      }
+      else if (hasRun >=1) {
+        result = func.apply(this, arguments);
+        hasRun = -1;
+        return result;
+      }
+      return result;
+    };
   };
 
   // Delays a function for the given number of milliseconds, and then calls
@@ -327,6 +341,10 @@ var _ = { };
   // parameter. For example _.delay(someFunction, 500, 'a', 'b') will
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
+    var args = Array.prototype.slice.call(arguments, 2);
+    return setTimeout(function() {
+      return func.apply(null, args);
+    }, wait);
   };
 
 
