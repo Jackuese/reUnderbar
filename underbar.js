@@ -206,7 +206,7 @@ var _ = { };
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
-    var sumCheck = 0;
+  var sumCheck = 0;
     var defaultIterator = function (element) {
       return element;
     };
@@ -224,7 +224,7 @@ var _ = { };
       else {
         return false;
       }
-    };
+  };
     // TIP: There's a very clever way to re-use every() here.
 
 
@@ -355,6 +355,13 @@ var _ = { };
 
   // Shuffle an array.
   _.shuffle = function(array) {
+    var randomNumber = Math.floor(Math.random()*array.length);
+    var newArr = [];
+      _.each(array, function (randomNumber) {
+        newArr.push;
+        array = newArr;
+      });
+    return array;
   };
 
 
@@ -377,6 +384,14 @@ var _ = { };
   // Example:
   // _.zip(['a','b','c','d'], [1,2,3]) returns [['a',1], ['b',2], ['c',3], ['d',undefined]]
   _.zip = function() {
+    var args = Array.prototype.slice.apply(arguments);
+    var resultArray = args[0];
+    var secondArg = args[1];
+    var thirdArg = args[2];
+      for (var i = 0; i < resultArray.length; i++) {
+        resultArray[i] = [resultArray[i], secondArg[i], thirdArg[i]];
+      }
+    return resultArray;
   };
 
   // Takes a multidimensional array and converts it to a one-dimensional array.
@@ -384,11 +399,37 @@ var _ = { };
   //
   // Hint: Use Array.isArray to check if something is an array
   _.flatten = function(nestedArray, result) {
+    var newArr = [];
+    for (var i = 0; i < nestedArray.length; i++) {
+      if (!isArray(nestedArray[i]) ) {
+        newArr.push(nestedArray[i]);
+      }
+      else {
+        var flatter = _.flatten(nestedArray[i]);
+        for (var j = 0; j < flatter.length; j++) {
+          newArr.push(flatter[j]);
+        }
+      }
+    }
+    return newArr;
+  function isArray(element) {
+    return (typeof element == "object" && element.constructor == Array);
+    }
   };
 
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
   _.intersection = function() {
+    var args = Array.prototype.slice.apply(arguments);
+    var dupeRemover = function(array) {
+
+    }
+    var masterArray = [];
+      for (var i = 0; i < args.length; i++) {
+        masterArray.push(args[i]);
+      }
+    var resultArr = _.flatten(masterArray);
+    
   };
 
   // Take the difference between one array and a number of other arrays.
