@@ -133,6 +133,8 @@ var _ = { };
     return storer;
   };
 
+// http://mdn.io/apply
+// Apply ido
   // Reduces an array or object to a single value by repetitively calling
   // iterator(previousValue, item) for each item. previousValue should be
   // the return value of the previous iterator call.
@@ -146,6 +148,8 @@ var _ = { };
   //     return total + number;
   //   }, 0); // should be 6
   //
+
+  // refactor out the inefficiency. 
   _.reduce = function(collection, iterator, initialValue) {
     if (initialValue !== undefined) {
       _.each(collection, function (element) {
@@ -175,56 +179,32 @@ var _ = { };
   };
 
 
-  // Determine whether all of the elements match a truth test.
-  _.every = function(collection, iterator) {
-    var mapArr;
-    var doer = function (collection, iterator) {
-      mapArr = _.map(collection, iterator);
-      if (mapArr.indexOf(false) > -1) {
-        return false;
-      }
-      else if (mapArr.indexOf(undefined) > -1) {
-        return false;
-      }
-      else {
-        return true;
-      }
-    };
-      if (iterator) {
-        return doer(collection, iterator);
-      }
-      else {
-        var defaultIterator = function (element) {
-          return element;
-        };
-        return doer(collection, defaultIterator);
-      }
+ _.every = function(collection, iterator) {
+    iterator = iterator || function (element) { return element; };
+
+    return _.reduce(collection, function(flag, element) {
+      return flag && !!iterator(element);
+    }, true);
   };
-    
     // TIP: Try re-using reduce() here.
 
   // Determine whether any of the elements pass a truth test. If no iterator is
   // provided, provide a default one
   _.some = function(collection, iterator) {
-  var sumCheck = 0;
-    var defaultIterator = function (element) {
-      return element;
+    iterator = iterator || function (element) { return element; };
+    var flag = false;
+
+      return _.reduce(collection, function(flag, element) {
+        if (flag || !!iterator(element) === true) {
+          return true;
+        }
+        else {
+          return false;
+        }
+      }, false);
     };
-    if (!iterator) {
-      iterator = defaultIterator;
-    }
-    _.each(collection, function (element) {
-      if (iterator(element) === true || element === 'yes') {
-        sumCheck += 1;
-      }
-    });
-      if (sumCheck > 0) {
-        return true;
-      }
-      else {
-        return false;
-      }
-  };
+
+
     // TIP: There's a very clever way to re-use every() here.
 
 
@@ -254,11 +234,11 @@ var _ = { };
     for (var i = 0; i < arguments.length; i++) {
       for (var property in arguments[i]) {
         obj[property] = arguments[i][property];
+        }
       }
     }
-  }
   return obj;
-};
+  };
 
   // Like extend, but doesn't ever overwrite a key that already
   // exists in obj
@@ -318,21 +298,9 @@ var _ = { };
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
-    var result = func;
-    var hasRun = 0;
-    return function() {
-      if (hasRun < 1) {
-        result = func.apply(this, arguments);
-        hasRun +=1;
-      }
-      else if (hasRun >=1) {
-        result = func.apply(this, arguments);
-        hasRun = -1;
-        return result;
-      }
-      return result;
+    //store results for multiple arguments. 
+    // use the arguments as the signal that the function has run with the given arguments.
     };
-  };
 
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
@@ -423,7 +391,7 @@ var _ = { };
     var args = Array.prototype.slice.apply(arguments);
     var dupeRemover = function(array) {
 
-    }
+    };
     var masterArray = [];
       for (var i = 0; i < args.length; i++) {
         masterArray.push(args[i]);
