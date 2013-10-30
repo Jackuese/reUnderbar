@@ -400,10 +400,8 @@ var _ = { };
       }
       return result;
     };
-    var mastArr = [args];
-    var sickArr = _.flatten(mastArr);
-    var sickerArr = sickArr.sort();
-    return dupeFinder(sickerArr);
+    var hypeArr = _.flatten([args]).sort();
+    return dupeFinder(hypeArr);
   };
 
   // Take the difference between one array and a number of other arrays.
