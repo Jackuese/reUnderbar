@@ -151,18 +151,21 @@ var _ = { };
 
   // refactor out the inefficiency. 
   _.reduce = function(collection, iterator, initialValue) {
-    if (initialValue !== undefined) {
+    
+    var eacher = function () {
       _.each(collection, function (element) {
         initialValue = iterator(initialValue, element);
       });
       return initialValue;
+    };
+
+    if (initialValue) {
+      return eacher();
     }
+
     else {
-      var newValue = 0;
-        _.each(collection, function (element) {
-          newValue = iterator(newValue, element);
-        });
-      return newValue;
+      initialValue = 0;
+      return eacher();
     }
   };
 
@@ -192,16 +195,9 @@ var _ = { };
   // provided, provide a default one
   _.some = function(collection, iterator) {
     iterator = iterator || function (element) { return element; };
-    var flag = false;
-
-      return _.reduce(collection, function(flag, element) {
-        if (flag || !!iterator(element) === true) {
-          return true;
-        }
-        else {
-          return false;
-        }
-      }, false);
+      return !(_.every(collection, function (element) {
+        return !iterator(element);
+      }));
     };
 
 
