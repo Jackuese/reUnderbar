@@ -57,9 +57,6 @@ var _ = { };
       }
     }
     return -1;
-    // TIP: Here's an example of a function that needs to iterate, which we've
-    // implemented for you. Instead of using a standard `for` loop, though,
-    // it uses the iteration helper `each`, which you will need to write.
   };
 
   // Return all elements of an array that pass a truth test.
@@ -372,6 +369,9 @@ var _ = { };
   // Hint: Use Array.isArray to check if something is an array
   _.flatten = function(nestedArray, result) {
     var newArr = [];
+    function isArray(element) {
+    return (typeof element == "object" && element.constructor == Array);
+    };
     for (var i = 0; i < nestedArray.length; i++) {
       if (!isArray(nestedArray[i]) ) {
         newArr.push(nestedArray[i]);
@@ -384,29 +384,44 @@ var _ = { };
       }
     }
     return newArr;
-  function isArray(element) {
-    return (typeof element == "object" && element.constructor == Array);
-    }
   };
 
   // Takes an arbitrary number of arrays and produces an array that contains
   // every item shared between all the passed-in arrays.
   _.intersection = function() {
     var args = Array.prototype.slice.apply(arguments);
-    var dupeRemover = function(array) {
-
-    };
-    var masterArray = [];
-      for (var i = 0; i < args.length; i++) {
-        masterArray.push(args[i]);
+    var result = [];
+    var dupeFinder = function(arr) {
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i] === arr[i + 1]) {
+          result.push(arr[i]);
+          arr.splice(i, i+1);
+        }
       }
-    var resultArr = _.flatten(masterArray);
-    
+      return result;
+    };
+    var mastArr = [args];
+    var sickArr = _.flatten(mastArr);
+    var sickerArr = sickArr.sort();
+    return dupeFinder(sickerArr);
   };
 
   // Take the difference between one array and a number of other arrays.
   // Only the elements present in just the first array will remain.
   _.difference = function(array) {
+    var args = Array.prototype.slice.apply(arguments);
+    var dupeRemover = function(arr) {
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i] === arr[i + 1]) {
+          arr.splice (i, i + 1);
+        }
+      }
+      return arr;
+    };
+    var mastArr = [args];
+    var sickArr = _.flatten(mastArr);
+    var sickerArr = sickArr.sort();
+    return dupeRemover(sickerArr);
   };
 
 
