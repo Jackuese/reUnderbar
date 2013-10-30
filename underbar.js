@@ -125,22 +125,20 @@ var _ = { };
 
   // Calls the method named by methodName on each value in the list.
   _.invoke = function(list, methodName, args) {
-    var storer = [];
     _.each(list, function (element) {
-      var answers = element[methodName]();
-      storer.push(answers);
+      if (typeof methodName === "string") {
+        element[methodName]();
+      }
+      else {
+        methodName.call(element);
+      }
     });
-    return storer;
+    return list;
   };
 
 // http://mdn.io/apply
 // Apply ido
-  // Reduces an array or object to a single value by repetitively calling
-  // iterator(previousValue, item) for each item. previousValue should be
-  // the return value of the previous iterator call.
-  //
-  // You can pass in an initialValue that is passed to the first iterator
-  // call. Defaults to 0.
+
   //
   // Example:
   //   var numbers = [1,2,3];
@@ -149,7 +147,6 @@ var _ = { };
   //   }, 0); // should be 6
   //
 
-  // refactor out the inefficiency. 
   _.reduce = function(collection, iterator, initialValue) {
     
     var eacher = function () {
