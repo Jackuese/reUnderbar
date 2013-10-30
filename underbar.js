@@ -294,9 +294,20 @@ var _ = { };
   // already computed the result for the given argument and return that value
   // instead if possible.
   _.memoize = function(func) {
-    //store results for multiple arguments. 
-    // use the arguments as the signal that the function has run with the given arguments.
+    var memo = {};
+    var memoizer = function (v) {
+      var value;
+      if (v in memo) {
+        value = memo[v];
+      }
+      else {
+        value = func;
+        memo[v] = value;
+      }
+      return value;
     };
+    return memoizer();
+  };
 
   // Delays a function for the given number of milliseconds, and then calls
   // it with the arguments supplied.
